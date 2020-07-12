@@ -17,9 +17,9 @@ import * as serviceWorker from './serviceWorker';
 const rootReducer = combineReducers({
   auth: AuthReducer,
   post: PostReducer
-}, applyMiddleware(thunk));
+});
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 ReactDOM.render(

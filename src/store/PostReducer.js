@@ -1,3 +1,4 @@
+import * as actionType from './actions';
 const initalState = {
     post: [
         { id: "1", title: "Help me find peach", content: "blah blah blah blah blah" },
@@ -6,7 +7,13 @@ const initalState = {
     ]
 }
 const PostReducer = (state = initalState, action) => {
-    return state;
+    switch (action.type) {
+        case actionType.ADD_POST:
+            console.log("created Post:", action.post);
+            return state
+        default:
+            return state;
+    }
 }
 
 export default PostReducer;

@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import { connect } from 'react-redux';
+import * as actionType from '../../store/actions/PostAction';
 
 const CreateProject = (props) => {
+    const { onCreate } = props;
     const [userInfo, setUserInfo] = useState({
         title: null,
         content: null,
     });
 
-    const onSubmitHandler = (ev) => {
+    const onSubmitHandler = useCallback((ev) => {
         ev.preventDefault();
-        console.log(userInfo)
-    }
+        console.log(userInfo);
+        onCreate(userInfo);
+
+    }, [onCreate, userInfo])
 
     const onInputHandler = (ev) => {
         setUserInfo({
@@ -35,6 +40,12 @@ const CreateProject = (props) => {
             </form>
         </div>
     )
+};
+
+const mapDispatchToState = dispatch => {
+    return {
+        onCreate: (post) => dispatch(actionType.createPost(post))
+    }
 }
 
-export default CreateProject
+export default connect(null, mapDispatchToState)(CreateProject)
