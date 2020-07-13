@@ -9,6 +9,7 @@ const ProjectList = (props) => {
                 posts ? posts.map(post => {
                     return <ProjectSummary
                         key={post.id}
+                        id={post.id}
                         title={post.title}
                         content={post.content} />
                 }) : <p className="center">Loading..</p>

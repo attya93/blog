@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import * as actionType from '../../store/actions/AuthAction';
+import { Redirect } from 'react-router-dom';
+
+
 
 const Signin = (props) => {
+    const { onAddUser, authError, auth } = props;
+
+
     const [userInfo, setUserInfo] = useState({
         email: null,
         password: null
@@ -8,7 +16,8 @@ const Signin = (props) => {
 
     const onSubmitHandler = (ev) => {
         ev.preventDefault();
-        console.log(userInfo)
+        //console.log(userInfo)
+        onAddUser(userInfo)
     }
 
     const onInputHandler = (ev) => {
@@ -17,6 +26,10 @@ const Signin = (props) => {
             [ev.target.id]: ev.target.value
         })
     }
+    if (auth.uid) {
+        return <Redirect to="/" />
+    }
+
     return (
         <div className="container">
             <form onSubmit={onSubmitHandler} className="white">
@@ -31,10 +44,26 @@ const Signin = (props) => {
                 </div>
                 <div className="input-field">
                     <button className="btn pink lighten-3 z-depth-0">Login</button>
+                    <div className="red-text center">
+                        {
+                            authError ? <p>{authError}</p> : null
+                        }
+                    </div>
                 </div>
             </form>
         </div>
     )
 }
 
-export default Signin
+const mapStateToProps = state => {
+    return {
+        authError: state.auth.authError,
+        auth: state.fBase.auth
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddUser: (userInfo) => dispatch(actionType.signIn(userInfo))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Signin)

@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux';
 import * as actionType from '../../store/actions/PostAction';
+import { Redirect } from 'react-router-dom';
 
 const CreateProject = (props) => {
-    const { onCreate } = props;
+    const { onCreate, auth } = props;
     const [userInfo, setUserInfo] = useState({
         title: null,
         content: null,
@@ -21,6 +22,10 @@ const CreateProject = (props) => {
             ...userInfo,
             [ev.target.id]: ev.target.value
         })
+    }
+
+    if (!auth.uid) {
+        return <Redirect to="/signin" />
     }
     return (
         <div className="container">
@@ -42,10 +47,15 @@ const CreateProject = (props) => {
     )
 };
 
+const mapStateToProps = state => {
+    return {
+        auth: state.fBase.auth
+    }
+}
 const mapDispatchToState = dispatch => {
     return {
         onCreate: (post) => dispatch(actionType.createPost(post))
     }
 }
 
-export default connect(null, mapDispatchToState)(CreateProject)
+export default connect(mapStateToProps, mapDispatchToState)(CreateProject)

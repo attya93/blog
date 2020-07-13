@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 
 const Signup = (props) => {
-    const [userInfo, setUserInfo] = useState({
+    const [userInfo, setUserInfo, auth] = useState({
         email: null,
         password: null,
         fName: null,
@@ -18,6 +21,9 @@ const Signup = (props) => {
             ...userInfo,
             [ev.target.id]: ev.target.value
         })
+    }
+    if (auth.uid) {
+        return <Redirect to="/" />
     }
     return (
         <div className="container">
@@ -47,4 +53,9 @@ const Signup = (props) => {
     )
 }
 
-export default Signup
+const mapStateToProps = state => {
+    return {
+        auth: state.fBase.auth
+    }
+}
+export default connect(mapStateToProps)(Signup)

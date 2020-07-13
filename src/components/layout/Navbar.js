@@ -2,23 +2,34 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import SigninLink from './SigninLink';
 import SignupLink from './SignupLink';
-import SigninMobileLink from './SigninMobileLink';
-import SignupMobileLink from './SigninMobileLink';
+
+import { connect } from 'react-redux';
+
 
 const Navbar = (props) => {
+    const { auth } = props;
+
+    const links = auth.uid ? <SigninLink /> : <SignupLink />;
     return (
         <nav className="nav-wrapper grey darken-3">
             <div className="container">
                 <Link to='/' className="brand-logo">Blog Medoo</Link>
-
-                <SigninLink />
-                <SignupLink />
-                <SigninMobileLink />
-                <SignupMobileLink />
+                {links}
             </div>
 
         </nav>
     )
 }
+/**
+ * 
+ * inside the fBase object :
+ * 1- auth : isEmpty  = means no login for this web site
+ */
 
-export default Navbar
+const mapStateToProps = state => {
+    return {
+        auth: state.fBase.auth
+    }
+}
+
+export default connect(mapStateToProps)(Navbar)
