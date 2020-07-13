@@ -14,6 +14,6 @@ const Config = {
     measurementId: "G-061J7SC228"
 };
 firebase.initializeApp(Config);
-firebase.firestore().settings({ timestampsInSnapshots: true });
+firebase.firestore();
 
 export default firebase;
