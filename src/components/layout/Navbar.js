@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 
 
 const Navbar = (props) => {
-    const { auth } = props;
+    const { auth, profile } = props;
 
-    const links = auth.uid ? <SigninLink /> : <SignupLink />;
+    const links = auth.uid ? <SigninLink profile={profile} /> : <SignupLink />;
     return (
         <nav className="nav-wrapper grey darken-3">
             <div className="container">
@@ -27,8 +27,10 @@ const Navbar = (props) => {
  */
 
 const mapStateToProps = state => {
+    console.log(state.fBase)
     return {
-        auth: state.fBase.auth
+        auth: state.fBase.auth,
+        profile: state.fBase.profile
     }
 }
 

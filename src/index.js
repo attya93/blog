@@ -9,7 +9,8 @@ import thunk from 'redux-thunk';
 import { reduxFirestore, getFirestore, firestoreReducer, createFirestoreInstance } from 'redux-firestore';
 import { ReactReduxFirebaseProvider, getFirebase, firebaseReducer, isLoaded } from 'react-redux-firebase';
 
-import firebase from 'firebase/app'
+import firebase from 'firebase/app';
+
 import fbConfig from './config/fbConfig';
 
 import './index.css';
@@ -34,6 +35,7 @@ const store = createStore(rootReducer, compose(
 );
 const rrfConfig = {
   userProfile: 'users',
+  useFirestoreForProfile: true // this to enable realtime sync and allow create collections
 }
 
 const rrfProps = {

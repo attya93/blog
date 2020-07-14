@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import * as actionType from '../../store/actions/AuthAction';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 
 
 const Signin = (props) => {
     const { onAddUser, authError, auth } = props;
-
+    const redirect = useHistory();
 
     const [userInfo, setUserInfo] = useState({
         email: null,
@@ -17,7 +17,8 @@ const Signin = (props) => {
     const onSubmitHandler = (ev) => {
         ev.preventDefault();
         //console.log(userInfo)
-        onAddUser(userInfo)
+        onAddUser(userInfo);
+        redirect.push('/');
     }
 
     const onInputHandler = (ev) => {

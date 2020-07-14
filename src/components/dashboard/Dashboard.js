@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import Notification from './Notifications';
 import ProjectList from '../projects/ProjectList';
-import { firestoreConnect } from 'react-redux-firebase';
+
+import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 
@@ -37,6 +38,6 @@ const mapStateToProps = state => {
 }
 
 export default compose(// compine two or more higher order components
-    connect(mapStateToProps),
-    firestoreConnect(() => ["posts"])
+    firestoreConnect(() => ["posts"]),
+    connect(mapStateToProps)
 )(Dashboard)

@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { connect } from 'react-redux';
 import * as actionType from '../../store/actions/PostAction';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const CreateProject = (props) => {
+    const redirect = useHistory();
     const { onCreate, auth } = props;
     const [userInfo, setUserInfo] = useState({
         title: null,
@@ -14,8 +15,9 @@ const CreateProject = (props) => {
         ev.preventDefault();
         console.log(userInfo);
         onCreate(userInfo);
+        redirect.push('/');
 
-    }, [onCreate, userInfo])
+    }, [onCreate, userInfo, redirect])
 
     const onInputHandler = (ev) => {
         setUserInfo({

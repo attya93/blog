@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-
+import { Redirect, useHistory } from 'react-router-dom';
+import * as action from '../../store/actions/AuthAction';
 
 const Signup = (props) => {
-    const [userInfo, setUserInfo, auth] = useState({
+    const { auth, onSignup, authError } = props;
+    const redirect = useHistory;
+    const [userInfo, setUserInfo] = useState({
         email: null,
         password: null,
         fName: null,
@@ -13,7 +15,8 @@ const Signup = (props) => {
 
     const onSubmitHandler = (ev) => {
         ev.preventDefault();
-        console.log(userInfo)
+        onSignup(userInfo);
+        redirect.push('/');
     }
 
     const onInputHandler = (ev) => {
@@ -48,6 +51,9 @@ const Signup = (props) => {
                 <div className="input-field">
                     <button className="btn pink lighten-3 z-depth-0">Login</button>
                 </div>
+                <div className="red-text center">
+                    {authError ? <p>{authError}</p> : null}
+                </div>
             </form>
         </div>
     )
@@ -55,7 +61,13 @@ const Signup = (props) => {
 
 const mapStateToProps = state => {
     return {
-        auth: state.fBase.auth
+        auth: state.fBase.auth,
+        authError: state.auth.authError
     }
 }
-export default connect(mapStateToProps)(Signup)
+const mapDispatchToProps = dispatch => {
+    return {
+        onSignup: (userData) => dispatch(action.signUp(userData))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)

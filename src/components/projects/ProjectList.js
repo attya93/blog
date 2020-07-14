@@ -9,9 +9,12 @@ const ProjectList = (props) => {
                 posts ? posts.map(post => {
                     return <ProjectSummary
                         key={post.id}
+                        AfName={post.AfName}
+                        AlName={post.AlName}
                         id={post.id}
                         title={post.title}
-                        content={post.content} />
+                        content={post.content}
+                        createdAt={post.createdAt} />
                 }) : <p className="center">Loading..</p>
             }
         </div>

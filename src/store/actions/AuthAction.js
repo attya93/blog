@@ -32,3 +32,26 @@ export const sigOut = () => {
         dispatch({ type: actionType.SIGNOUT })
     }
 }
+
+export const signUp = (userData) => {
+    return async (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+
+        let user;
+        try {
+            user = await firebase.auth().createUserWithEmailAndPassword(
+                userData.email,
+                userData.password
+            );
+            return await firestore.collection('users').doc(user.user.uid).set({
+                fName: userData.fName,
+                lName: userData.lName,
+                initial: userData.fName[0] + userData.lName[0]
+            });
+        } catch (Err) {
+            dispatch({ type: actionType.SIGNUP_ERROR, Err })
+        }
+        dispatch({ type: actionType.SIGNUP })
+    }
+}
