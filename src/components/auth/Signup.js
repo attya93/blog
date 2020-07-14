@@ -5,7 +5,7 @@ import * as action from '../../store/actions/AuthAction';
 
 const Signup = (props) => {
     const { auth, onSignup, authError } = props;
-    const redirect = useHistory;
+    const redirect = useHistory();
     const [userInfo, setUserInfo] = useState({
         email: null,
         password: null,

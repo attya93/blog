@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 
 const Dashboard = (props) => {
-    const { posts, auth } = props;
+    const { posts, auth, notification } = props;
     if (!auth.uid) {
         return <Redirect to="/signin" />
     }
@@ -22,7 +22,7 @@ const Dashboard = (props) => {
                         <ProjectList posts={posts} />
                     </div>
                     <div className="col s12 m5 offset-m1">
-                        <Notification />
+                        <Notification notify={notification} />
                     </div>
                 </div>
             </div>
@@ -33,11 +33,15 @@ const Dashboard = (props) => {
 const mapStateToProps = state => {
     return {
         posts: state.firestore.ordered.posts,
-        auth: state.fBase.auth
+        auth: state.fBase.auth,
+        notification: state.firestore.ordered.notifications
     }
 }
 
 export default compose(// compine two or more higher order components
-    firestoreConnect(() => ["posts"]),
+    firestoreConnect(() => [
+        { collection: "posts", orderBy: ["createdAt", "desc"] },
+        { collection: "notifications", limit: 3, orderBy: ["time", "desc"] },
+    ]),
     connect(mapStateToProps)
 )(Dashboard)

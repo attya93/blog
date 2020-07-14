@@ -27,7 +27,6 @@ const Navbar = (props) => {
  */
 
 const mapStateToProps = state => {
-    console.log(state.fBase)
     return {
         auth: state.fBase.auth,
         profile: state.fBase.profile
